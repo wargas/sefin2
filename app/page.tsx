@@ -97,8 +97,8 @@ export default function Home() {
   const [outrasReceitas, setOutrasReceitas] = useState<Receita[]>([])
 
   const [params, setParams] = useState({
-    dependentesIR: 2,
-    dependentesSF: 1,
+    dependentesIR: 0,
+    dependentesSF: 0,
     gdf: 1,
     ita: 0.15,
     complementar: 8.5,
