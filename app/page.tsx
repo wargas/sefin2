@@ -3,15 +3,15 @@
 import { FormProventos } from "@/components/form-provento";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
 import { formatNumber } from "@/lib/utils";
 import { Receita } from "@/types";
-import { filter, random, sortBy, sumBy } from "lodash";
-import { ChevronDown, PlusIcon, X } from "lucide-react";
+import { filter, sortBy, sumBy } from "lodash";
+import { PlusIcon } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 
 const config = {
@@ -99,7 +99,7 @@ export default function Home() {
   const [params, setParams] = useState({
     dependentesIR: 0,
     dependentesSF: 0,
-    gdf: 1,
+    gdf: 100,
     ita: 0.15,
     complementar: 8.5,
     sindicato: 240,
@@ -143,7 +143,7 @@ export default function Home() {
         saude: true,
         previdencia: true,
         teto: true,
-        value: baseGdf * params.gdf
+        value: baseGdf * params.gdf/100
       },
       {
         name: 'RAV',
@@ -317,7 +317,7 @@ export default function Home() {
               </div>
               <div className="col-span-1">
                 <Label className="line-clamp-1 flex justify-between" title="% GDF" htmlFor="">% GDF</Label>
-                <Input value={'100'} />
+                <Input value={params.gdf.toString()} onChange={v => changeValue({gdf: parseInt(v.target.value)})} />
               </div>
               <div className="col-span-1">
                 <Label className="line-clamp-1 justify-between flex" title="FIDAF" htmlFor="">
