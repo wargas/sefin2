@@ -18,7 +18,8 @@ export function useHook() {
         rav: 0,
         saude: true,
         teto: true,
-        ajuste: 0
+        ajuste: 0,
+        consignado: 0
     })
 
     const receitas = useMemo(() => {
@@ -154,7 +155,8 @@ export function useHook() {
             { name: 'ceprev', value: valorCeprev },
             { name: 'sindicato', value: params.sindicato },
             { name: 'irpf', value: valorIR },
-            { name: 'desconto teto', value: descontoTeto }
+            { name: 'desconto teto', value: descontoTeto },
+            { name: 'consignados', value: params.consignado }
         ]
     }, [receitas, params])
 
@@ -167,5 +169,5 @@ export function useHook() {
         setOutrasReceitas(old => old.filter(o => o.id != id))
     }, [outrasReceitas])
 
-    return { changeValue, removeOutrasReceitasById, descontos, bcIR, bcPrevidencia, bcSaude, receitas, params, setParams, outrasReceitas, setOutrasReceitas}
+    return { changeValue, removeOutrasReceitasById, descontos, bcIR, bcPrevidencia, bcSaude, receitas, params, setParams, outrasReceitas, setOutrasReceitas }
 }

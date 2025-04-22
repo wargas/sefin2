@@ -24,7 +24,7 @@ export default function Home() {
       <div className="font-sans container mt-4 mx-auto">
         <Card>
           <CardHeader>
-            <div className={cn({ "grid": showMenu, "hidden": !showMenu }, "transition-all grid-cols-2 lg:grid-cols-6 gap-4")}>
+            <div className={cn({ "grid": showMenu, "hidden": !showMenu }, "transition-all grid-cols-2 lg:grid-cols-7 gap-4")}>
               <div className="col-span-1">
                 <Label className="line-clamp-1 flex justify-between" title="Dependentes IR" htmlFor="">Cargo</Label>
                 <Select value={params.cargo} onValueChange={v => changeValue({ cargo: v })}>
@@ -131,7 +131,7 @@ export default function Home() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="col-span-1">
+              <div className="col-span-2">
                 <Label htmlFor="">Respeita o teto</Label>
                 <Select value={params.teto ? '1' : '0'} onValueChange={v => changeValue({ teto: v == '1' })}>
                   <SelectTrigger className="w-full">
@@ -153,6 +153,16 @@ export default function Home() {
                   onChange={ev => changeValue({ ajuste: parseFloat(ev.target.value.replaceAll('.', '').replace(',', '') || '0') / 100 })}
                 />
               </div>
+              <div className="col-span-1">
+                <Label className="line-clamp-1 justify-between flex" title="Ajuste" htmlFor="">
+                  <span>Consignados</span>
+                  {params.consignado > 0 && <span className="" onClick={() => changeValue({ consignado: 0 })}>limpar</span>}
+                </Label>
+                <Input
+                  value={(params.consignado).toLocaleString('pt-BR', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}
+                  onChange={ev => changeValue({ consignado: parseFloat(ev.target.value.replaceAll('.', '').replace(',', '') || '0') / 100 })}
+                />
+              </div>
             </div>
             <div className="mt-2 flex gap-2 justify-end">
               <Button onClick={() => setShowMenu(!showMenu)}>
@@ -162,7 +172,6 @@ export default function Home() {
               <FormProventos onSave={r => setOutrasReceitas(old => ([...old, { ...r, id: Math.random().toString() }]))}>
                 <Button variant={'outline'}><PlusIcon /> provento</Button>
               </FormProventos>
-              <Button variant={'outline'}><PlusIcon /> desconto</Button>
             </div>
           </CardHeader>
           <CardContent className="p-0 border-t">
@@ -170,7 +179,7 @@ export default function Home() {
               <TableBody>
                 {sortBy(receitas, 'value').reverse().filter(r => r.value > 0).map(r => (
                   <TableRow key={r.name}>
-                    <TableCell className="uppercase group">
+                    <TableCell className="uppercase group pl-10 font-light">
                       {r.name}
                       {r.id && (
                         <span onClick={() => removeOutrasReceitasById(r.id || '')} className="ml-4 lowercase opacity-0 group-hover:opacity-100 cursor-pointer">excluir</span>
@@ -185,7 +194,7 @@ export default function Home() {
                 </TableRow>
                 {sortBy(descontos, 'value').filter(d => d.value > 0).reverse().map(d => (
                   <TableRow>
-                    <TableCell className="uppercase">{d.name}</TableCell>
+                    <TableCell className="uppercase pl-10 font-light">{d.name}</TableCell>
                     <TableCell className="text-end font-bold">{formatNumber(d.value)}</TableCell>
                   </TableRow>
                 ))}
