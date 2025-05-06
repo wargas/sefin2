@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
+import { config } from "@/lib/config";
 import { useHook } from "@/lib/hook";
 import { cn, formatNumber } from "@/lib/utils";
 import { sortBy, sumBy } from "lodash";
@@ -15,7 +16,7 @@ import { EyeIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(true)
   const { changeValue, removeOutrasReceitasById, descontos, bcIR, bcPrevidencia, bcSaude, receitas, params, setParams, outrasReceitas, setOutrasReceitas } = useHook()
 
   return (
@@ -34,6 +35,24 @@ export default function Home() {
                   <SelectContent>
                     <SelectItem value="AUDITOR">AUDITOR</SelectItem>
                     <SelectItem value="ANALISTA">ANALISTA</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="col-span-1">
+                <Label className="line-clamp-1 flex justify-between" title="Dependentes IR" htmlFor="">Classe/Nível</Label>
+                <Select value={params.nivel} onValueChange={v => changeValue({ nivel: v })}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Classe/Nível" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <div className="grid grid-cols-6">
+
+                      {Object.keys(config.tabela.AUDITOR).map(n => (
+                        <SelectItem key={n} value={n}>
+                          <span className="">{['I', 'II', 'III', 'IV', 'V', 'VI'][parseInt(n[0])-1]}{' '}{n.substring(1)}</span>
+                        </SelectItem>
+                      ))}
+                    </div>
                   </SelectContent>
                 </Select>
               </div>
@@ -131,7 +150,7 @@ export default function Home() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="col-span-2">
+              <div className="col-span-1">
                 <Label htmlFor="">Respeita o teto</Label>
                 <Select value={params.teto ? '1' : '0'} onValueChange={v => changeValue({ teto: v == '1' })}>
                   <SelectTrigger className="w-full">

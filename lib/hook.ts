@@ -3,11 +3,14 @@ import { Receita } from "@/types";
 import { filter, sumBy } from "lodash";
 import { useCallback, useMemo, useState } from "react";
 
+
+
 export function useHook() {
     const [outrasReceitas, setOutrasReceitas] = useState<Receita[]>([])
 
     const [params, setParams] = useState({
         dependentesIR: 0,
+        nivel: 'IA',
         dependentesSF: 0,
         gdf: 100,
         ita: 0.15,
@@ -27,7 +30,9 @@ export function useHook() {
         const ajuste = 1 + (params.ajuste / 100)
 
         const cargo = params.cargo as "AUDITOR" | "ANALISTA";
-        const vencimento = config.tabela[cargo]["1A"] * config.ajustes["2024-06-01"] * ajuste
+
+        const nivel = params.nivel as "1A"
+        const vencimento = config.tabela[cargo][nivel] * config.ajustes["2024-06-01"] * ajuste
 
         const baseGdf = config.tabela[cargo]["4A"] * config.ajustes["2024-06-01"] * 0.4 * ajuste
 
