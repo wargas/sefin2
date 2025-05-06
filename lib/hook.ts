@@ -10,7 +10,7 @@ export function useHook() {
 
     const [params, setParams] = useState({
         dependentesIR: 0,
-        nivel: 'IA',
+        nivel: '1A',
         dependentesSF: 0,
         gdf: 100,
         ita: 0.15,
