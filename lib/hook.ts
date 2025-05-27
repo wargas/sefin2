@@ -142,7 +142,7 @@ export function useHook() {
     }, [receitas, params])
 
     const descontos = useMemo(() => {
-
+ 
         const valorPrevidor = bcPrevidencia.previdor * 0.14
         const valorCeprev = bcPrevidencia.complementar * (params.complementar / 100)
 
