@@ -148,7 +148,7 @@ export function useHook() {
 
         const bcIR2 = bcIR - valorPrevidor - valorCeprev;
 
-        const valorIR = bcIR2 * 0.275 - 896
+        const valorIR = bcIR2 * 0.275 - 908.73
 
         const receitasTeto = sumBy(filter(receitas, { teto: true }), 'value')
 
