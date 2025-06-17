@@ -25,9 +25,10 @@ export function useHook() {
         consignado: 0
     })
 
-    const receitas = useMemo(() => {
+    const ajuste = useMemo(() => 1 + (params.ajuste / 100), [params]) 
+    const tetoPrefeito = config.remuneracaoPrefeito * ajuste;
 
-        const ajuste = 1 + (params.ajuste / 100)
+    const receitas = useMemo(() => {
 
         const cargo = params.cargo as "AUDITOR" | "ANALISTA";
 
@@ -101,8 +102,8 @@ export function useHook() {
         let geral_teto = sumBy(filter(receitas, { saude: true, teto: true }), 'value')
         let geral_no_teto = sumBy(filter(receitas, { saude: true, teto: false }), 'value')
 
-        if (geral_teto > config.remuneracaoPrefeito && params.teto) {
-            geral_teto = config.remuneracaoPrefeito
+        if (geral_teto > tetoPrefeito && params.teto) {
+            geral_teto = tetoPrefeito
         }
 
         return geral_teto + geral_no_teto;
@@ -112,8 +113,8 @@ export function useHook() {
         let geral_teto = sumBy(filter(receitas, { previdencia: true, teto: true }), 'value')
         let geral_no_teto = sumBy(filter(receitas, { previdencia: true, teto: false }), 'value')
 
-        if (geral_teto > config.remuneracaoPrefeito && params.teto) {
-            geral_teto = config.remuneracaoPrefeito
+        if (geral_teto > tetoPrefeito && params.teto) {
+            geral_teto = tetoPrefeito
         }
 
         const geral = geral_teto + geral_no_teto;
@@ -134,8 +135,8 @@ export function useHook() {
         let ir_teto = sumBy(filter(receitas, { ir: true, teto: true }), 'value')
         const ir_no_teto = sumBy(filter(receitas, { ir: true, teto: false }), 'value')
 
-        if (ir_teto > config.remuneracaoPrefeito && params.teto) {
-            ir_teto = config.remuneracaoPrefeito
+        if (ir_teto > tetoPrefeito && params.teto) {
+            ir_teto = tetoPrefeito
         }
 
         return ir_teto + ir_no_teto - descontoDependente
@@ -152,7 +153,7 @@ export function useHook() {
 
         const receitasTeto = sumBy(filter(receitas, { teto: true }), 'value')
 
-        const descontoTeto = (config.remuneracaoPrefeito < receitasTeto && params.teto) ? receitasTeto - config.remuneracaoPrefeito : 0
+        const descontoTeto = (tetoPrefeito < receitasTeto && params.teto) ? receitasTeto - tetoPrefeito : 0
 
         return [
             { name: 'saude', value: params.saude ? bcSaude * 0.02 : 0 },
