@@ -18,7 +18,7 @@ export function useHook() {
         sindicato: 240,
         cargo: 'AUDITOR',
         fidaf: 0,
-        rav: 0,
+        rav: 800,
         saude: true,
         teto: true,
         ajuste: 0,
