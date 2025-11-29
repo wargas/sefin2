@@ -22,7 +22,8 @@ export function useHook() {
         saude: true,
         teto: true,
         ajuste: 0,
-        consignado: 0
+        consignado: 0,
+        diasTrabalhados: 30
     })
 
     const ajuste = useMemo(() => 1 + (params.ajuste / 100), [params]) 
@@ -37,6 +38,8 @@ export function useHook() {
 
         const baseGdf = config.tabela[cargo]["4A"] * config.ajustes["2025-05-01"] * 0.4 * ajuste
 
+        const coeficienteTrabalhado = params.diasTrabalhados / 30
+
         return [
             {
                 name: 'vencimento',
@@ -44,7 +47,7 @@ export function useHook() {
                 saude: true,
                 previdencia: true,
                 teto: true,
-                value: vencimento
+                value: vencimento * coeficienteTrabalhado
             },
             {
                 name: 'ita',
@@ -68,7 +71,7 @@ export function useHook() {
                 saude: true,
                 previdencia: true,
                 teto: true,
-                value: params.rav * config.valorPontoRAV
+                value: (params.rav * config.valorPontoRAV) * coeficienteTrabalhado
             },
             {
                 name: 'salario-familia',
@@ -84,7 +87,7 @@ export function useHook() {
                 saude: false,
                 previdencia: false,
                 teto: false,
-                value: params.cargo == 'AUDITOR' ? 1594.63 : 0
+                value: (params.cargo == 'AUDITOR' ? 1594.63 : 0) * coeficienteTrabalhado
             },
             {
                 name: 'fidaf',

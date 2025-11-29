@@ -188,6 +188,16 @@ export default function Home() {
                 <EyeIcon />
               </Button>
               <div className="ml-auto"></div>
+              <div className="flex gap-2">
+                <Label className="line-clamp-1 justify-between flex" title="Ajuste" htmlFor="">
+                  <span>Dias Trabalhados</span>
+                </Label>
+                <Input
+                  value={params.diasTrabalhados}
+                  onChange={ev => changeValue({ diasTrabalhados: parseInt(ev.target.value) })}
+                />
+              </div>
+              
               <FormProventos onSave={r => setOutrasReceitas(old => ([...old, { ...r, id: Math.random().toString() }]))}>
                 <Button variant={'outline'}><PlusIcon /> provento</Button>
               </FormProventos>
