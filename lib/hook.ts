@@ -55,7 +55,7 @@ export function useHook() {
                 saude: true,
                 previdencia: true,
                 teto: true,
-                value: vencimento * params.ita
+                value: vencimento * params.ita * coeficienteTrabalhado
             },
             {
                 name: 'gdf',
