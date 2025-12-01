@@ -63,7 +63,7 @@ export function useHook() {
                 saude: true,
                 previdencia: true,
                 teto: true,
-                value: baseGdf * params.gdf / 100
+                value: (baseGdf * params.gdf / 100)  * coeficienteTrabalhado
             },
             {
                 name: 'RAV',
