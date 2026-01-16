@@ -87,7 +87,7 @@ export function useHook() {
                 saude: false,
                 previdencia: false,
                 teto: false,
-                value: (params.cargo == 'AUDITOR' ? 1594.63 : 0) * coeficienteTrabalhado
+                value: (params.cargo == 'AUDITOR' ? 1594.63 * 1.0426: 0) * coeficienteTrabalhado
             },
             {
                 name: 'fidaf',
