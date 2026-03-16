@@ -1,6 +1,6 @@
 export const config = {
   tetoINSS: 8475.55,
-  valorPontoRAV: 11.54 * 1.0426,
+  valorPontoRAV: 12.04,
   remuneracaoPrefeito: 28656.54*1.0483*1.0476, 
   "ajustes": {
     "2023-01-01": 1.0579,
