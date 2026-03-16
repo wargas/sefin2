@@ -34,9 +34,9 @@ export function useHook() {
         const cargo = params.cargo as "AUDITOR" | "ANALISTA";
 
         const nivel = params.nivel as "1A"
-        const vencimento = config.tabela[cargo][nivel] * config.ajustes["2025-05-01"] * ajuste
+        const vencimento = config.tabela[cargo][nivel] * config.ajustes["2026-05-01"] * ajuste
 
-        const baseGdf = config.tabela[cargo]["4A"] * config.ajustes["2025-05-01"] * 0.4 * ajuste
+        const baseGdf = config.tabela[cargo]["4A"] * config.ajustes["2026-05-01"] * 0.4 * ajuste
 
         const coeficienteTrabalhado = params.diasTrabalhados / 30
 
