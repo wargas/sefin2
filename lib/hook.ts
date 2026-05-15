@@ -113,7 +113,7 @@ export function useHook() {
       "value",
     );
 
-    if (geral_teto > teto && params.teto) {
+    if (geral_teto > teto) {
       geral_teto = teto;
     }
 
@@ -130,7 +130,7 @@ export function useHook() {
       "value",
     );
 
-    if (geral_teto > teto && params.teto) {
+    if (geral_teto > teto) {
       geral_teto = teto;
     }
 
@@ -154,7 +154,7 @@ export function useHook() {
       "value",
     );
 
-    if (ir_teto > teto && params.teto) {
+    if (ir_teto > teto) {
       ir_teto = teto;
     }
 

@@ -206,8 +206,8 @@ export default function Home() {
           <CardContent className="p-0 border-t">
             <Table>
               <TableBody>
-                {sortBy(receitas, 'value').reverse().filter(r => r.value > 0).map(r => (
-                  <TableRow key={r.name+r.value}>
+                {sortBy(receitas, 'value').reverse().filter(r => r.value > 0).map((r, i) => (
+                  <TableRow key={r.name+r.value+i}>
                     <TableCell className="uppercase group pl-10 font-light">
                       {r.name}
                       {r.id && (
