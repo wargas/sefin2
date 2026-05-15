@@ -96,12 +96,12 @@ export function useHook() {
         ir: true,
         saude: false,
         previdencia: false,
-        teto: false,
+        teto: !params.teto,
         value: params.fidaf,
       },
       ...outrasReceitas,
     ];
-  }, [params, config, outrasReceitas]);
+  }, [params, config, outrasReceitas,teto]);
 
   const bcSaude = useMemo(() => {
     let geral_teto = sumBy(

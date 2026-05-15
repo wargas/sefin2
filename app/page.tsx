@@ -207,7 +207,7 @@ export default function Home() {
             <Table>
               <TableBody>
                 {sortBy(receitas, 'value').reverse().filter(r => r.value > 0).map(r => (
-                  <TableRow key={r.name}>
+                  <TableRow key={r.name+r.value}>
                     <TableCell className="uppercase group pl-10 font-light">
                       {r.name}
                       {r.id && (
