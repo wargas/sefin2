@@ -6,4 +6,5 @@ export type Receita = {
     previdencia: boolean
     teto: boolean,
     value: number
+    referencia: string
 }

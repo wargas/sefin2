@@ -207,13 +207,14 @@ export default function Home() {
             <Table>
               <TableBody>
                 {sortBy(receitas, 'value').reverse().filter(r => r.value > 0).map((r, i) => (
-                  <TableRow key={r.name+r.value+i}>
+                  <TableRow key={i}>
                     <TableCell className="uppercase group pl-10 font-light">
                       {r.name}
-                      {r.id && (
+                      {r?.id && (
                         <span onClick={() => removeOutrasReceitasById(r.id || '')} className="ml-4 lowercase opacity-0 group-hover:opacity-100 cursor-pointer">excluir</span>
                       )}
                     </TableCell>
+                    <TableCell>{r.referencia}</TableCell>
                     <TableCell className="text-end font-bold">{formatNumber(r.value)}</TableCell>
                   </TableRow>
                 ))}
@@ -222,7 +223,7 @@ export default function Home() {
                   <TableHead className="text-end font-bold bg-accent">{formatNumber(sumBy(receitas, 'value'))}</TableHead>
                 </TableRow>
                 {sortBy(descontos, 'value').filter(d => d.value > 0).reverse().map(d => (
-                  <TableRow>
+                  <TableRow key={d.name}>
                     <TableCell className="uppercase pl-10 font-light">{d.name}</TableCell>
                     <TableCell className="text-end font-bold">{formatNumber(d.value)}</TableCell>
                   </TableRow>

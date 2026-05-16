@@ -49,6 +49,8 @@ export function useHook() {
         previdencia: true,
         teto: true,
         value: vencimento * coeficienteTrabalhado,
+        referencia: '',
+        id: null
       },
       {
         name: "ita",
@@ -57,6 +59,8 @@ export function useHook() {
         previdencia: true,
         teto: true,
         value: vencimento * params.ita * coeficienteTrabalhado,
+        referencia: '',
+        id: null
       },
       {
         name: "gdf",
@@ -65,6 +69,8 @@ export function useHook() {
         previdencia: true,
         teto: true,
         value: ((baseGdf * params.gdf) / 100) * coeficienteTrabalhado,
+        referencia: '',
+        id: null
       },
       {
         name: "RAV",
@@ -73,6 +79,8 @@ export function useHook() {
         previdencia: true,
         teto: true,
         value: params.rav * config.valorPontoRAV * coeficienteTrabalhado,
+        referencia: '',
+        id: null
       },
       {
         name: "salario-familia",
@@ -81,6 +89,8 @@ export function useHook() {
         previdencia: false,
         teto: false,
         value: 8.13 * params.dependentesSF,
+        referencia: '',
+        id: null
       },
       {
         name: "combustivel",
@@ -90,6 +100,8 @@ export function useHook() {
         teto: false,
         value:
           (params.cargo == "AUDITOR" ? 1652.45 : 0) * coeficienteTrabalhado,
+        referencia: '',
+        id: null
       },
       {
         name: "fidaf",
@@ -98,10 +110,12 @@ export function useHook() {
         previdencia: false,
         teto: !params.teto,
         value: params.fidaf,
+        referencia: '',
+        id: null
       },
       ...outrasReceitas,
     ];
-  }, [params, config, outrasReceitas,teto]);
+  }, [params, config, outrasReceitas, teto]);
 
   const bcSaude = useMemo(() => {
     let geral_teto = sumBy(
@@ -148,17 +162,31 @@ export function useHook() {
   const bcIR = useMemo(() => {
     const descontoDependente = params.dependentesIR * 189.59;
 
-    let ir_teto = sumBy(filter(receitas, { ir: true, teto: true }), "value");
-    const ir_no_teto = sumBy(
+    const valorFidaf = sumBy(filter(receitas, { name: 'fidaf' }), 'value')
+    var descontoTetoFidaf = 0
+
+    let bc_teto = sumBy(filter(receitas, { ir: true, teto: true }), "value");
+
+    let bc_sem_teto = sumBy(
       filter(receitas, { ir: true, teto: false }),
       "value",
-    );
+    ) - valorFidaf;
 
-    if (ir_teto > teto) {
-      ir_teto = teto;
+    if (bc_teto > teto) {
+      bc_teto = teto;
     }
 
-    return ir_teto + ir_no_teto - descontoDependente;
+    if (params.teto) {
+      descontoTetoFidaf = Math.max(0, bc_teto + valorFidaf - config.remuneracaoSTF)
+    }
+
+    console.log({ descontoTetoFidaf, bc_teto, valorFidaf })
+
+    if (!params.teto && bc_teto > config.remuneracaoSTF) {
+      bc_teto = config.remuneracaoSTF
+    }
+
+    return bc_teto + bc_sem_teto + valorFidaf - descontoTetoFidaf - descontoDependente;
   }, [receitas, params]);
 
   const descontos = useMemo(() => {
@@ -172,19 +200,28 @@ export function useHook() {
 
     const receitasTeto = sumBy(filter(receitas, { teto: true }), "value");
 
-    const descontoTeto =
-      teto < receitasTeto
-        ? receitasTeto - teto
-        : 0;
+    const valorFidaf = sumBy(filter(receitas, { name: 'fidaf' }), 'value')
+
+    var descontoTeto = 0;
+
+    if (teto < receitasTeto) {
+      descontoTeto = receitasTeto - teto
+    }
+
+    if (params.teto && (receitasTeto + valorFidaf) > config.remuneracaoSTF) {
+      descontoTeto += (receitasTeto + valorFidaf) - config.remuneracaoSTF
+    }
+
+
 
     return [
-      { name: "saude", value: params.saude ? bcSaude * 0.02 : 0 },
-      { name: "previfor", value: valorPrevidor },
-      { name: "ceprev", value: valorCeprev },
-      { name: "sindicato", value: params.sindicato },
-      { name: "irpf", value: valorIR },
-      { name: "desconto teto", value: descontoTeto },
-      { name: "consignados", value: params.consignado },
+      {id:null, referencia: ``, name: "saude", value: params.saude ? bcSaude * 0.02 : 0 },
+      {id:null, referencia: ``, name: "previfor", value: valorPrevidor },
+      {id:null, referencia: ``, name: "ceprev", value: valorCeprev },
+      {id:null, referencia: ``, name: "sindicato", value: params.sindicato },
+      {id:null, referencia: ``, name: "irpf", value: valorIR },
+      {id:null, referencia: ``, name: "desconto teto", value: descontoTeto },
+      {id:null, referencia: ``, name: "consignados", value: params.consignado },
     ];
   }, [receitas, params]);
 
