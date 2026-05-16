@@ -214,7 +214,6 @@ export default function Home() {
                         <span onClick={() => removeOutrasReceitasById(r.id || '')} className="ml-4 lowercase opacity-0 group-hover:opacity-100 cursor-pointer">excluir</span>
                       )}
                     </TableCell>
-                    <TableCell>{r.referencia}</TableCell>
                     <TableCell className="text-end font-bold">{formatNumber(r.value)}</TableCell>
                   </TableRow>
                 ))}
